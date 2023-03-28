@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import useLocalStorage from "use-local-storage";
+import Alert from "./Components/Alert";
+import Footer from "./Components/Footer";
+import Navbar from "./Components/Navbar";
+import Navigation from "./Router";
 
 function App() {
+  const Dark = window.matchMedia('(prefers-color-scheme: halloween)').matches
+  const [ Theme, setTheme ] = useLocalStorage('theme', Dark ? 'halloween' : 'autumn');
+
+  const switchTheme = () => {
+    const newThemes = Theme === 'autumn' ? 'halloween' : 'autumn'
+    setTheme(newThemes)
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <div data-theme={Theme}>
+    <Navbar switchTheme={switchTheme} Theme={Theme} />
+    <Alert />
+    <Navigation />
+    <Footer />
+   </div>
   );
 }
 
